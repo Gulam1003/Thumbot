@@ -1,0 +1,38 @@
+{# 
+    Template: add_post.html
+
+    Description: 
+    This template extends the base layout and provides a form for adding a new blog post. 
+    It includes fields for the post title and content, and a submit button to post the form data.
+    
+    Extends:
+    - base.html: The base template that includes common layout elements.
+
+    Blocks:
+    - content: Overrides the content block in the base template to provide specific content for this page.
+
+    Form Fields:
+    - Title: An input field for the post title (required).
+    - Content: A textarea for the post content (required).
+
+    Actions:
+    - The form sends a POST request to the 'blog.add' route upon submission.
+#}
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Add New Post</h1>
+    <form method="post" action="{{ url_for('blog.add') }}">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Post</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{# 
+    Template: signup.html
+
+    Description: 
+    This template extends the base layout and provides a sign-up form for new users to create an account. 
+    It includes fields for first name, surname, email, and password, and a link to the login page for existing users.
+
+    Extends:
+    - base.html: The base template that includes common layout elements.
+
+    Blocks:
+    - content: Overrides the content block in the base template to provide specific content for this page.
+
+    Elements:
+    - Container: A Bootstrap container to center the sign-up form on the page.
+    - Row: A Bootstrap row to align the form in the center.
+    - Column: A Bootstrap column that defines the width of the form.
+    - Form: 
+        - A form for user registration with fields for first name, surname, email, and password.
+        - Fields: 
+            - First Name: An input field for the user's first name.
+            - Surname: An input field for the user's surname.
+            - Email: An input field for the user's email address.
+            - Password: An input field for the user's password.
+        - Submit Button: A button to submit the form and create an account.
+    - Login Link: 
+        - A link to the login page for users who already have an account.
+#}
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Sign Up</h2>
+            <form method="POST" action="{{ url_for('auth.signup') }}">
+                <div class="form-group">
+                    <label for="name">First Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" class="form-control" id="surname" name="surname" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+            </form>
+            <p class="text-center mt-3"><a href="{{ url_for('auth.login') }}">Already have an account? Log in</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{# 
+    Template: edit_post.html
+
+    Description: 
+    This template extends the base layout and provides a form for editing an existing blog post. 
+    It pre-fills the form with the current title and content of the post, allowing users to update them.
+
+    Extends:
+    - base.html: The base template that includes common layout elements.
+
+    Blocks:
+    - content: Overrides the content block in the base template to provide specific content for this page.
+
+    Elements:
+    - Header: Displays the "Edit Post" title.
+    - Edit Post Form: 
+        - A form for editing the blog post with fields pre-filled with the current post data.
+        - Fields: 
+            - Title: An input field for the post title, pre-filled with the current title.
+            - Content: A textarea for the post content, pre-filled with the current content.
+        - Update Button: A button to submit the form and update the post.
+#}
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Edit Post</h1>
+    <form method="post" action="{{ url_for('blog.edit', post_id=post.id) }}">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control" id="content" name="content" rows="10" required>{{ post.content }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Post</button>
+    </form>
+</div>
+{% endblock %}

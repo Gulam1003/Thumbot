@@ -1,0 +1,105 @@
+{# 
+    Template: base.html
+
+    Description: 
+    This is the base template for the Thumbot application. It provides the overall structure, including the header, navigation bar, footer, and a content block for specific page content to be inserted.
+
+    DOCTYPE Declaration:
+    - Specifies the HTML5 document type.
+
+    Head Section:
+    - Sets the character encoding to UTF-8.
+    - Sets the viewport for responsive web design.
+    - Includes Bootstrap CSS for styling.
+    - Includes FontAwesome for icons.
+
+    Body Section:
+    - Navbar: 
+        - Contains the main navigation links for the site.
+        - Adjusts for user login state, showing different links if the user is logged in or not.
+    - Content Block: 
+        - Defines a block where page-specific content will be inserted.
+    - Footer: 
+        - Contains a simple footer with the site’s copyright information.
+
+    Scripts:
+    - jQuery, Popper.js, and Bootstrap JS for interactivity and functionality.
+
+#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thumbot</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('home') }}">Thumbot</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('blog.blog') }}">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('pricing') }}">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+                </li>
+                {% if 'user' in session %}
+                    <!-- <li class="nav-item bg-primary text-white">
+                        <a class="nav-link text-white" href="#">Signed in as {{ session['username']}}</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="text-center mt-4">
+        <p>© 2024 Thumbot. All rights reserved.</p>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+

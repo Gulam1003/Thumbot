@@ -1,0 +1,64 @@
+{# 
+    Template: admin.html
+
+    Description: 
+    This template extends the base layout and provides an admin panel for managing blog posts. 
+    It includes a table listing all posts with options to add, edit, or delete posts.
+
+    Extends:
+    - base.html: The base template that includes common layout elements.
+
+    Blocks:
+    - content: Overrides the content block in the base template to provide specific content for this page.
+
+    Elements:
+    - Header: Displays the "Admin Panel" title.
+    - Add New Post Button: A button that redirects to the add post page.
+    - Table: A responsive table listing all blog posts with columns for title, author, date posted, and actions.
+
+    Table Columns:
+    - Title: The title of the blog post.
+    - Author: The author of the blog post.
+    - Date Posted: The date when the blog post was created, formatted as 'Month Day, Year'.
+    - Actions: Buttons for editing or deleting the post.
+
+    Actions:
+    - Edit: Redirects to the edit post page for the selected post.
+    - Delete: Sends a POST request to delete the selected post.
+#}
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Admin Panel</h1>
+    <a href="{{ url_for('blog.add') }}" class="btn btn-success mb-3">Add New Post</a>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Date Posted</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.author }}</td>
+                    <td>{{ post.date_posted.strftime('%B %d, %Y') }}</td>
+                    <td>
+                        <a href="{{ url_for('blog.edit', post_id=post.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ url_for('blog.delete', post_id=post.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{# 
+    Template: contact.html
+
+    Description: 
+    This template extends the base layout and provides a contact page for Thumbot. 
+    It includes a form for users to send messages, select products, and provide their contact information.
+
+    Extends:
+    - base.html: The base template that includes common layout elements.
+
+    Blocks:
+    - content: Overrides the content block in the base template to provide specific content for this page.
+
+    Elements:
+    - Header: Displays the "Get in Touch" title and a brief introduction.
+    - Contact Information: Provides additional instructions and contact methods for users.
+    - Contact Form: 
+        - Allows users to select a product, enter their personal and contact information, and submit a message.
+        - Fields: 
+            - Product: A dropdown to select the product category (Orders, Support, Feedback).
+            - First Name: An input field for the user's first name.
+            - Last Name: An input field for the user's last name.
+            - Email: An input field for the user's email address.
+            - Phone: An input field for the user's phone number, with country code selection.
+            - Company: An optional input field for the user's company name.
+            - Message: A textarea for the user's message.
+            - Accept Privacy Policy: A checkbox to accept the website's privacy policy.
+        - Submit Button: A button to submit the form.
+#}
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Get in Touch</h1>
+    <p class="text-center mb-5">Contact us using the information below. We'll respond promptly to your inquiries and feedback.</p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Thumbot Contact Form</h2>
+            <p>Got any questions or feedback? Feel free to reach out to us by giving us a call on 0000000000000</p>
+            <p>Before sending a message, you may want to thoroughly review the documentation page</p>
+            <p>If you can't find what you need, connect to live support for quick assistance</p>
+            <p>Please select the product, enter your first and last name, and provide your email and phone number before submitting your message via the contact form.</p>
+        </div>
+        <div class="col-md-6">
+            <h2>Send us your message now!</h2>
+            <form>
+                <div class="form-group">
+                    <label for="product">Select which Product</label>
+                    <select class="form-control" id="product">
+                        <option>Orders</option>
+                        <option>Support</option>
+                        <option>Feedback</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="First name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Last name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="you@company.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <select class="custom-select" id="countryCode">
+                                <option value="BG" selected>BG</option>
+                                <option value="US">US</option>
+                                <option value="CA">CA</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" id="phone" placeholder="(+359) 282 872 25">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company (Optional)</label>
+                    <input type="text" class="form-control" id="company" placeholder="Your company">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" id="message" rows="3" placeholder="Message title here"></textarea>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="accept">
+                    <label class="form-check-label" for="accept">I accept the website <a href="#">privacy policy</a>.</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

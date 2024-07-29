@@ -1,0 +1,66 @@
+{# 
+    Template: blog.html
+
+    Description: 
+    This template extends the base layout and provides the main blog page for Thumbot. 
+    It displays an introduction to the blog and a list of blog posts with options for admins to edit or delete posts.
+
+    Extends:
+    - base.html: The base template that includes common layout elements.
+
+    Blocks:
+    - content: Overrides the content block in the base template to provide specific content for this page.
+
+    Elements:
+    - Header: Displays the "Welcome to the Thumbot Blog" title.
+    - Introduction: A brief introduction to the blog's purpose and content.
+    - Blog Posts: 
+        - Displays a list of blog posts with titles, truncated content, and a "Read More" button.
+        - For admins, includes "Edit" and "Delete" buttons for each post.
+    - Add More Blog Button: 
+        - Displayed only to admins, allowing them to add new blog posts.
+
+    Conditional Elements:
+    - Admin Controls: 
+        - If the user is an admin (checked via session), additional controls for editing and deleting posts are shown.
+#}
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Welcome to the Thumbot Blog</h1>
+    <div class="mb-4 text-center">
+        <p>Your ultimate resource for YouTube success and thumbnail mastery.</p>
+        <p>Level up your YouTube game with expert insights, proven strategies, and cutting-edge techniques. Discover the power of click-worthy thumbnails, engage your audience, and stay ahead of YouTube trends. Join our passionate community and skyrocket your views.</p>
+        <p>Thumbots’s Blog: where success starts with a thumbnail!</p>
+    </div>
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content[:150] }}...</p>
+                    <a href="{{ url_for('blog.post', post_id=post.id) }}" class="btn btn-primary">Read More</a>
+                    {% if session.get('is_admin') %}
+                    <a href="{{ url_for('blog.edit', post_id=post.id) }}" class="btn btn-warning">Edit</a>
+                    <form action="{{ url_for('blog.delete', post_id=post.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    {% endif %}
+                </div>
+                <!-- <div class="card-footer text-muted">
+                    Posted by {{ post.author }} on {{ post.date_posted.strftime('%B %d, %Y') }}
+                </div> -->
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if session.get('is_admin') %}
+    <div>
+        <a href="{{ url_for('blog.add') }}" class="btn btn-primary">Add More Blog</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

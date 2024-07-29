@@ -1,0 +1,165 @@
+{# 
+    Template: index.html
+
+    Description: 
+    This template extends the base layout and provides the landing page for Thumbot. 
+    It introduces the service, showcases its features, and compares it with competitors.
+
+    Extends:
+    - base.html: The base template that includes common layout elements.
+
+    Blocks:
+    - content: Overrides the content block in the base template to provide specific content for this page.
+
+    Elements:
+    - Jumbotron: 
+        - A large header section with a title, subtitle, and call-to-action buttons.
+    - Introduction Section:
+        - A brief overview of what Thumbot can do for its users.
+    - Feature Cards:
+        - Cards displaying different example projects with images, titles, and descriptions.
+    - Why Us Section:
+        - A section explaining the benefits of using Thumbot, with icons and descriptions.
+    - Comparison Table:
+        - A table comparing Thumbot with DALL.E and MidJourney in terms of pricing, learning curve, and features.
+
+#}
+
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Struggling to Make Kickass YouTube Thumbnails?</h1>
+    <p class="lead">Unleash the Power of AI to Create Thumbnails That Captivate & Convert!</p>
+    <a href="{{ url_for('get_started') }}" class="btn btn-primary btn-lg">Get Started</a>
+    <a href="#" class="btn btn-outline-success btn-lg">See How It Works</a>
+</div>
+
+<div class="text-center my-5">
+    <h2>What we can do?</h2>
+</div>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/yeti.jpg') }}" class="card-img-top" alt="Secrets of the Yeti">
+            <div class="card-body">
+                <h5 class="card-title">Secrets of the Yeti</h5>
+                <p class="card-text">Witness the awe-inspiring legend come alive.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/mars.jpg') }}" class="card-img-top" alt="Future Mars Cities">
+            <div class="card-body">
+                <h5 class="card-title">Future Mars Cities</h5>
+                <p class="card-text">Explore the stunning Mars city designs.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/black_panther.jpg') }}" class="card-img-top" alt="Black Panther: The Jungle's Hero">
+            <div class="card-body">
+                <h5 class="card-title">Black Panther: The Jungle's Hero</h5>
+                <p class="card-text">Experience the thrill of the jungle's hero.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/poverty.jpg') }}" class="card-img-top" alt="Poverty Fighters: African Kids">
+            <div class="card-body">
+                <h5 class="card-title">Poverty Fighters: African Kids</h5>
+                <p class="card-text">Stories of resilience and hope.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/pirate.jpg') }}" class="card-img-top" alt="Epic Pirate Adventures">
+            <div class="card-body">
+                <h5 class="card-title">Epic Pirate Adventures</h5>
+                <p class="card-text">Join the fearless pirates in unforgettable battles.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/pharma.jpg') }}" class="card-img-top" alt="Med Insights: Pharma Innovations">
+            <div class="card-body">
+                <h5 class="card-title">Med Insights: Pharma Innovations</h5>
+                <p class="card-text">Unveiling breakthrough discoveries in pharmaceuticals.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center my-5">
+    <h2>Why Us?</h2>
+</div>
+<div class="row text-center">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <i class="fas fa-paint-brush fa-3x mb-3"></i>
+                <h5 class="card-title">No Design Skills? No Problem!</h5>
+                <p class="card-text">Toss aside those complex editing tools. Our AI makes pro-level thumbnails without the fuss.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <i class="fas fa-clock fa-3x mb-3"></i>
+                <h5 class="card-title">More Time for Content, Less for Thumbnails</h5>
+                <p class="card-text">Quick and easy! Thumbot speeds up your workflow, giving you more time to focus on your next viral hit, not just thumbnail tweaks.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <i class="fas fa-magnet fa-3x mb-3"></i>
+                <h5 class="card-title">Click-Magnet Thumbnails</h5>
+                <p class="card-text">No more bland thumbnails! Our AI whips up eye-grabbing designs that don't just look cool but are clickbait-free and view-boosting.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center my-5">
+    <h2>How are we different?</h2>
+</div>
+<div class="table-responsive">
+    <table class="table table-bordered text-center">
+        <thead>
+            <tr>
+                <th></th>
+                <th>DALL.E</th>
+                <th>MidJourney</th>
+                <th>Thumbot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Pricing Pain</th>
+                <td>$20/month</td>
+                <td>$10/month</td>
+                <td>No subscriptions! Just buy credits as you need 'em</td>
+            </tr>
+            <tr>
+                <th scope="row">Learn Prompt Engineering?</th>
+                <td>Yep</td>
+                <td>Yep</td>
+                <td>Nah, we got you covered. No learning curve!</td>
+            </tr>
+            <tr>
+                <th scope="row">Auto-adds title?</th>
+                <td>Nope! Add the title manually in an image editor</td>
+                <td>Nope! Add the title manually in an image editor</td>
+                <td>Auto-magically generated! Just upload & chill</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

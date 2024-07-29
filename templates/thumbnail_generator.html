@@ -1,0 +1,98 @@
+{# 
+    Template: thumbnail_generator.html
+
+    Description: 
+    This template provides a user interface for generating thumbnails using an AI model. 
+    Users can enter a description for the thumbnail, submit the form, and view the generated thumbnail.
+
+    Structure:
+    - HTML5 document structure with Bootstrap for styling.
+    - A container with a centered form for thumbnail generation.
+    - JavaScript to handle form submission and display the generated thumbnail.
+
+    Head Section:
+    - Sets the character encoding to UTF-8.
+    - Sets the viewport for responsive web design.
+    - Includes Bootstrap CSS for styling.
+
+    Body Section:
+    - Container: A Bootstrap container to center the content on the page.
+    - Row: A Bootstrap row to align the form in the center.
+    - Column: A Bootstrap column that defines the width of the form.
+    - Form: 
+        - A form for entering the description and generating the thumbnail.
+        - Fields: 
+            - Prompt: An input field for the user to enter a description for the thumbnail.
+        - Submit Button: A button to submit the form and generate the thumbnail.
+    - Thumbnail Result: 
+        - A hidden section to display the generated thumbnail after the form is submitted.
+
+    Scripts:
+    - jQuery, Popper.js, and Bootstrap JS for interactivity and functionality.
+    - Custom JavaScript to handle form submission, make a POST request to generate the thumbnail, and display the result.
+
+#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thumbnail Generator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center mb-4">Thumbnail Generator</h2>
+                <form id="thumbnailForm">
+                    <div class="form-group">
+                        <label for="promptInput">Enter a description for your thumbnail:</label>
+                        <input type="text" class="form-control" id="promptInput" name="prompt" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Generate Thumbnail</button>
+                </form>
+                <div id="thumbnailResult" class="mt-4" style="display: none;">
+                    <h3 class="text-center">Generated Thumbnail</h3>
+                    <img id="generatedThumbnail" src="" alt="Generated Thumbnail" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+    document.getElementById('thumbnailForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const prompt = document.getElementById('promptInput').value;
+
+        fetch('/generate_thumbnail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt: prompt })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.image_url) {
+                document.getElementById('generatedThumbnail').src = data.image_url;
+                document.getElementById('thumbnailResult').style.display = 'block';
+            } else {
+                alert('Failed to generate thumbnail: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to process your request.');
+        });
+    });
+    </script>
+</body>
+</html>

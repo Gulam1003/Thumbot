@@ -1,0 +1,61 @@
+{# 
+    Template: pricing.html
+
+    Description: 
+    This template extends the base layout and displays the pricing plans for Thumbot. 
+    It includes different plans with their respective prices and a button to get started.
+
+    Extends:
+    - base.html: The base template that includes common layout elements.
+
+    Blocks:
+    - content: Overrides the content block in the base template to provide specific content for this page.
+
+    Elements:
+    - Container: A Bootstrap container to center the content on the page.
+    - Header: Displays the "Pricing" title.
+    - Description: A brief description of the pricing model.
+    - Pricing Plans:
+        - A row of Bootstrap cards each representing a different pricing plan.
+        - Each card includes:
+            - Plan Title: The name of the pricing plan (Basic, Pro, Enterprise).
+            - Plan Price: The cost and the number of credits included in the plan.
+            - Get Started Button: A button to initiate the process of purchasing the plan.
+#}
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Pricing</h1>
+    <p>Choose the plan that’s right for you. No subscriptions, just buy credits as you need them.</p>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Basic Plan</h5>
+                    <p class="card-text">$10 for 100 credits</p>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Pro Plan</h5>
+                    <p class="card-text">$20 for 250 credits</p>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Enterprise Plan</h5>
+                    <p class="card-text">$50 for 1000 credits</p>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
