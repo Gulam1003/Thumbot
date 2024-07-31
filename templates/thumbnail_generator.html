@@ -16,10 +16,10 @@
             height: 120px;
             animation: spin 1.5s linear infinite;
             position: absolute;
-            top: 70%; /* Adjust this value to move the loader lower */
+            top: 50%; 
             left: 50%;
-            transform: translate(-50%, -50%); /* Center horizontally and slightly adjust vertical position */
-            display: none; /* Hide by default */
+            transform: translate(-60%, -50%); 
+            display: none; 
         }
 
         @keyframes spin {
@@ -42,6 +42,9 @@
     </style>
 </head>
 <body>
+    <!-- Loader -->
+    <div id="loader" class="loader" style="display: none;"></div>
+
     <div class="container mt-5">
         <!-- Back Button -->
         <a href="javascript:history.back()" class="btn btn-primary back-button">Back</a>
@@ -58,9 +61,6 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Generate Thumbnail</button>
                 </form>
-
-                <!-- Loader -->
-                <div id="loader" class="loader" style="display: none;"></div>
 
                 <!-- Thumbnail Result -->
                 <div id="thumbnailResult" class="mt-4" style="display: none;">

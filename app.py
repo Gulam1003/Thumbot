@@ -23,7 +23,7 @@ def create_app(test_config=None):
     and defines the main routes. It loads configurations from a `config.Config` object
     or a provided test configuration dictionary.
     """
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__)
     
     if test_config:
         app.config.update(test_config)
