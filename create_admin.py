@@ -24,7 +24,7 @@ from models import db, User
 
 with app.app_context():
     admin_email = 'admin@example.com'
-    admin_password = 'adminpassword'  # Replace with your desired password
+    admin_password = 'adminpassword'  
 
     # Check if the admin user already exists
     admin_user = User.query.filter_by(email=admin_email).first()

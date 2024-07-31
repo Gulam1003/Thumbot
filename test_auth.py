@@ -2,7 +2,7 @@ import pytest
 from flask import session
 from werkzeug.security import generate_password_hash
 
-from app import create_app  # Make sure to have a factory function for creating your Flask app
+from app import create_app  
 from models import db, User
 
 @pytest.fixture
@@ -11,7 +11,7 @@ def app():
     _app = create_app({
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
-        'SECRET_KEY': 'your_secret_key'  # Ensure the secret key is set
+        'SECRET_KEY': 'your_secret_key'  
     })
     with _app.app_context():
         db.init_app(_app)
@@ -22,12 +22,13 @@ def app():
 
 @pytest.fixture
 def client(app):
+    """Provide a client to simulate requests to the app."""
     return app.test_client()
 
 @pytest.fixture
 def init_database(app):
+    """Set up the database with initial test users."""
     with app.app_context():
-        # Insert user data
         user1 = User(email='user@example.com', name='User', surname='Test')
         user1.set_password('123456')
         user2 = User(email='admin@example.com', name='Admin', surname='User')
@@ -38,49 +39,47 @@ def init_database(app):
         db.session.close()
 
 def test_login(client, init_database):
-    """Testing user login with correct credentials."""
+    """Test logging in with the correct credentials."""
     with client:
         response = client.post('/auth/login', data={'email': 'user@example.com', 'password': '123456'}, follow_redirects=True)
         assert response.status_code == 200
         assert session.get('user') == 'user@example.com'
-        assert b"Login successful!" in response.data
+        assert "Login successful!" in response.get_data(as_text=True)
 
 def test_login_failure(client, init_database):
-    """Testing login with incorrect credentials."""
+    """Test logging in with incorrect credentials."""
     with client:
         response = client.post('/auth/login', data={'email': 'user@example.com', 'password': 'wrong'}, follow_redirects=True)
         assert response.status_code == 200
         assert 'user' not in session
-        assert b"Login failed. Please check your credentials and try again." in response.data
+        assert "Login failed. Please check your credentials and try again." in response.get_data(as_text=True)
 
 def test_signup(client, init_database):
-    """Testing user signup."""
+    """Test signing up a new user."""
     with client:
         response = client.post('/auth/signup', data={
             'name': 'New', 'surname': 'User', 'email': 'new@example.com', 'password': 'newpassword'
         }, follow_redirects=True)
         assert response.status_code == 200
-        assert b"Signup successful! Please log in." in response.data
+        assert "Signup successful! Please log in." in response.get_data(as_text=True)
 
 def test_logout(client, init_database):
-    """Testing user logout."""
+    """Test logging out a user."""
     with client:
         client.post('/auth/login', data={'email': 'user@example.com', 'password': '123456'}, follow_redirects=True)
         response = client.get('/auth/logout', follow_redirects=True)
         assert response.status_code == 200
         assert 'user' not in session
-        assert b"You have been logged out." in response.data
+        assert "You have been logged out." in response.get_data(as_text=True)
 
 def test_admin_access(client, init_database):
-    """Testing admin user can access the home page."""
+    """Test that an admin user can access the home page."""
     with client:
-        # Log in as admin
         login_response = client.post('/auth/login', data={'email': 'admin@example.com', 'password': '121212'}, follow_redirects=True)
         assert login_response.status_code == 200
-        assert b'Login successful!' in login_response.data
+        assert "Login successful!" in login_response.get_data(as_text=True)
         assert session.get('is_admin') == True
         
-        # Access the home page
         response = client.get('/', follow_redirects=True)
         assert response.status_code == 200
-        assert b'Struggling to Make Kickass YouTube Thumbnails?' in response.data
+        assert "Struggling to Make Kickass YouTube Thumbnails?" in response.get_data(as_text=True)

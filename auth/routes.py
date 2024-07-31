@@ -42,7 +42,7 @@ def login():
         if user and user.check_password(password):
             session['user'] = user.email
             session['username'] = f"{user.name} {user.surname}"  # Store the user's name and surname in the session
-            if email == 'admin@example.com':  # Replace with your admin email
+            if email == 'admin@example.com':  
                 session['is_admin'] = True
             else:
                 session['is_admin'] = False

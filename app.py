@@ -4,35 +4,24 @@ from flask_migrate import Migrate
 from openai import OpenAI
 import os
 
+import openai
+
 # Initialize SQLAlchemy outside of create_app to make it globally accessible
 db = SQLAlchemy()
 
 def create_app(test_config=None):
     """
-    Factory function to create and configure the Flask application.
+    Create and configure the Flask application.
 
     Args:
-        test_config (dict, optional): Optional dictionary for test configuration settings.
+        test_config (dict, optional): Optional settings for testing.
 
     Returns:
         Flask: Configured Flask application instance.
 
-    This function sets up the Flask application with configurations, initializes
-    database connections, registers blueprints, and defines the main routes.
-    It supports loading configurations from a `config.Config` object or a provided
-    test configuration dictionary.
-
-    The following features are configured:
-    - SQLAlchemy: Database management.
-    - Flask-Migrate: Database migrations.
-    - OpenAI: Optional initialization of the OpenAI client.
-
-    Routes:
-    - `/`: Renders the home page.
-    - `/get_started`: Redirects to the thumbnail generator or login page based on user session.
-    - `/thumbnail_generator`: Renders the thumbnail generator page, requires user login.
-    - `/pricing`: Renders the pricing page.
-    - `/contact`: Renders the contact page.
+    This function sets up the Flask app, configures the database, registers blueprints,
+    and defines the main routes. It loads configurations from a `config.Config` object
+    or a provided test configuration dictionary.
     """
     app = Flask(__name__, instance_relative_config=True)
     
@@ -40,6 +29,8 @@ def create_app(test_config=None):
         app.config.update(test_config)
     else:
         app.config.from_object('config.Config')
+
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Initialize db with the app
     db.init_app(app)
@@ -84,18 +75,34 @@ def create_app(test_config=None):
     @app.route('/thumbnail_generator', methods=['GET', 'POST'])
     def thumbnail_generator():
         """
-        Thumbnail generator page route.
+        Handle thumbnail generation and show the generator page.
 
-        Requires user login. Handles both GET and POST requests.
-        For POST requests, handles thumbnail generation logic.
+        Methods:
+            GET: Render the thumbnail generator page.
+            POST: Generate a thumbnail based on user input and return the image URL as JSON.
 
         Returns:
-            str: Rendered HTML template for the thumbnail generator page or redirect response.
+            Response: The rendered thumbnail generator template or JSON response with the generated thumbnail URL.
         """
         if 'user' not in session:
             flash('Please log in to access the thumbnail generator.', 'warning')
             return redirect(url_for('auth.login'))
-        # Similar setup for handling POST with thumbnail generation logic
+        if request.method == 'POST':
+            data = request.get_json()
+            prompt = data.get('prompt')
+            if not prompt:
+                return jsonify({'error': 'Prompt is required'}), 400
+            try:
+                response = client.images.generate(
+                    model="dall-e-3",
+                    prompt=prompt,
+                    size="1024x1024",
+                    n=1
+                )
+                image_url = response.data[0].url
+                return jsonify({'image_url': image_url})
+            except Exception as e:
+                return jsonify({'error': str(e)}), 500
         return render_template('thumbnail_generator.html')
 
     @app.route('/pricing')
