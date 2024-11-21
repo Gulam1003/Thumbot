@@ -39,6 +39,6 @@ class Config:
     A configuration class that loads and stores environment variables.
     """
     SECRET_KEY = os.getenv('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
     DALLE_API_KEY = os.getenv('DALLE_API_KEY')
